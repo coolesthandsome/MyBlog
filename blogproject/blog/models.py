@@ -55,7 +55,7 @@ class Post(models.Model):
         self.save(update_fields=['views'])
 
     def save(self, *args, **kwargs):
-        if not self.exerpt:
+        if (not self.exerpt) or (self.text):
             md=markdown.Markdown(extensions=['markdown.extensions.extra',
                 'markdown.extensions.codehilite'])
 
