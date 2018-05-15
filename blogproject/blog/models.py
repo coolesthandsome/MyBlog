@@ -27,7 +27,7 @@ class Post(models.Model):
     text=models.TextField()
     created_time=models.DateTimeField()
     modified_time=models.DateTimeField()
-    exerpt=models.CharField(max_length=100,blank=True)
+    exerpt=models.CharField(max_length=200,blank=True)
    # name=models.CharField(max_length=100)
     category=models.ForeignKey(Category,on_delete=models.CASCADE,)
     tag=models.ManyToManyField
