@@ -3,6 +3,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
+import markdown
+from django.utils.html import strip_tags
 from django.utils.six import python_2_unicode_compatible
 
 # Create your models here.
@@ -51,3 +53,11 @@ class Post(models.Model):
     def increase_views(self):
         self.views=self.views+1
         self.save(update_fields=['views'])
+
+    def save(self, *args, **kwargs):
+        if not self.exerpt:
+            md=markdown.Markdown(extensions=['markdown.extensions.extra',
+                'markdown.extensions.codehilite'])
+
+            self.exerpt=strip_tags(md.convert(self.text))[:54]
+        super(Post,self).save(*args, **kwargs)
