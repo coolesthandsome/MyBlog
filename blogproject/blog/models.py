@@ -31,6 +31,8 @@ class Post(models.Model):
     tag=models.ManyToManyField
     author=models.ForeignKey(User,on_delete=models.CASCADE,)
 
+    views=models.PositiveIntegerField(default=0)
+
     class Meta:
         ordering=['-created_time','title']
 
@@ -45,3 +47,7 @@ class Post(models.Model):
 # 于是 reverse 函数会去解析这个视图函数对应的 URL，我们这里 detail 对应的规则就是 post/(?P<pk>[0-9]+)/ 这个正则表达式，
 # 而正则表达式部分会被后面传入的参数 pk 替换，所以，如果 Post 的 id（或者 pk，这里 pk 和 id 是等价的） 是 255 的话，
 # 那么 get_absolute_url 函数返回的就是 /post/255/ ，这样 Post 自己就生成了自己的 URL。
+
+    def increase_views(self):
+        self.views=self.views+1
+        self.save(update_fields=['views'])
