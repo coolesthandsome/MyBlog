@@ -93,6 +93,7 @@ class PostDetailView(DetailView):
         response=super(PostDetailView, self).get(request, *args, **kwargs)
         self.object.increase_views()
         return response
+    #可以简单地把 get 方法看成是 detail 视图函数，至于其它的像 get_object、get_context_data 都是辅助方法，这些方法最终在 get 方法中被调用，这里你没有看到被调用的原因是它们隐含在了 super(PostDetailView, self).get(request, *args, **kwargs) 即父类 get 方法的调用中。最终传递给浏览器的 HTTP 响应就是 get 方法返回的 HttpResponse 对象。
 
     def get_object(self, queryset=None):
         post=super(PostDetailView, self).get_object(queryset=None)
