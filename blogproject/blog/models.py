@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 import markdown
 from django.utils.html import strip_tags
+from django.views.generic import ListView
 from django.utils.six import python_2_unicode_compatible
 
 # Create your models here.
@@ -61,3 +62,5 @@ class Post(models.Model):
 
             self.exerpt=strip_tags(md.convert(self.text))[:54]
         super(Post,self).save(*args, **kwargs)
+
+

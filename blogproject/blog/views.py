@@ -9,6 +9,8 @@ from django.http import HttpResponse
 
 from .models import Post,Category
 
+from django.views.generic import ListView
+
 # Create your views here.
 
 def index(request):
@@ -51,3 +53,18 @@ def category(request,pk):
     cate=get_object_or_404(Category,pk=pk)
     post_list=Post.objects.filter(category=cate).order_by('-created_time')
     return render(request,'blog/index.html',context={'post_list':post_list})
+
+class IndexView(ListView):
+    model=Post
+    template_name = 'blog/index.html'
+    context_object_name = 'post_list'   #model。将 model 指定为 Post，告诉 Django 我要获取的模型是 Post。template_name。指定这个视图渲染的模板。context_object_name。指定获取的模型列表数据保存的变量名。这个变量会被传递给模板。
+
+
+class CategoryView(ListView):
+    model = Post
+    template_name = 'blog/index.html'
+    context_object_name = "post_list"
+
+    def get_queryset(self):
+        cate=get_object_or_404(Category,pk=self.kwargs.get("pk"))
+        return super(CategoryView, self).get_queryset().filter(category=cate)
