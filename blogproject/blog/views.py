@@ -11,6 +11,8 @@ from .models import Post,Category
 
 from django.views.generic import ListView
 
+from django.views.generic import DetailView
+
 # Create your views here.
 
 # def index(request):
@@ -20,22 +22,22 @@ from django.views.generic import ListView
 #     })
 
 
-def detail(request,pk):
-    post=get_object_or_404(Post,pk=pk)
-
-    post.increase_views()
-    post.text=markdown.markdown(post.text,extensions=['markdown.extensions.extra',
-                                     'markdown.extensions.codehilite',
-                                     'markdown.extensions.toc'])
-
-    form=CommentForm()
-    comment_list=post.comment_set.all()
-
-    context={'post': post,
-               'form': form,
-               'comment_list': comment_list
-               }
-    return render(request,'blog/detail.html',context=context)
+# def detail(request,pk):
+#     post=get_object_or_404(Post,pk=pk)
+#
+#     post.increase_views()
+#     post.text=markdown.markdown(post.text,extensions=['markdown.extensions.extra',
+#                                      'markdown.extensions.codehilite',
+#                                      'markdown.extensions.toc'])
+#
+#     form=CommentForm()
+#     comment_list=post.comment_set.all()
+#
+#     context={'post': post,
+#                'form': form,
+#                'comment_list': comment_list
+#                }
+#     return render(request,'blog/detail.html',context=context)
 
 
 #首先接受了一个名为 request 的参数，
@@ -81,3 +83,27 @@ class ArchivesView(ListView):
         return super(ArchivesView, self).get_queryset().filter(created_time__year=year,
                                                                 created_time__month=month,
                                                                 created_time__day=day)
+
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'blog/detail.html'
+    context_object_name = 'post'
+
+    def get(self, request, *args, **kwargs):
+        response=super(PostDetailView, self).get(request, *args, **kwargs)
+        self.object.increase_views()
+        return response
+
+    def get_object(self, queryset=None):
+        post=super(PostDetailView, self).get_object(queryset=None)
+        post.text=markdown.markdown(post.text,extensions=['markdown.extensions.extra',
+                                          'markdown.extensions.codehilite',
+                                          'markdown.extensions.toc'])
+        return post
+
+    def get_context_data(self, **kwargs):
+        context=super(PostDetailView,self).get_context_data(**kwargs)
+        form=CommentForm()
+        comment_list=self.object.comment_set.all()
+        context.update({'form':form,'comment_list':comment_list})
+        return context
