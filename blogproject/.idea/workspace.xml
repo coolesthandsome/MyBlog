@@ -23,7 +23,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="search_indexes.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="search_indexes.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/blog/search_indexes.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="390">
@@ -53,11 +53,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/blogproject/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="206">
+            <state relative-caret-position="-2756">
               <caret line="27" column="59" selection-start-line="27" selection-start-column="59" selection-end-line="27" selection-end-column="59" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="fabfile.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/fabfile.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="360">
+              <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
             </state>
           </provider>
         </entry>
@@ -81,7 +90,6 @@
       <find>comment-list list-unstyled</find>
       <find>评论列表</find>
       <find>comment-list</find>
-      <find>ALLOWED_HOSTS</find>
       <find>©</find>
       <find>Colin</find>
       <find>阅读</find>
@@ -104,6 +112,7 @@
       <find>serch</find>
       <find>&lt;p&gt;{% highlight result.object.body with query %}&lt;/p&gt;</find>
       <find>object.body</find>
+      <find>ALLOWED_HOSTS</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -121,7 +130,6 @@
         <option value="$PROJECT_DIR$/comments/urls.py" />
         <option value="$PROJECT_DIR$/comments/views.py" />
         <option value="$PROJECT_DIR$/manage.py" />
-        <option value="$PROJECT_DIR$/fabfile.py" />
         <option value="$PROJECT_DIR$/blog/models.py" />
         <option value="$PROJECT_DIR$/blog/templatetags/blog_tags.py" />
         <option value="$PROJECT_DIR$/blog/feeds.py" />
@@ -135,6 +143,7 @@
         <option value="$PROJECT_DIR$/blog/whoosh_cn_backends.py" />
         <option value="$PROJECT_DIR$/templates/search/search.html" />
         <option value="$PROJECT_DIR$/blogproject/settings.py" />
+        <option value="$PROJECT_DIR$/fabfile.py" />
       </list>
     </option>
   </component>
@@ -469,13 +478,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/fabfile.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="750">
-          <caret line="26" selection-start-line="26" selection-end-line="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://F:/Python/Spyder1/spider1.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
@@ -557,16 +559,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/blog/search_indexes.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="13" column="45" selection-start-line="13" selection-start-column="45" selection-end-line="13" selection-end-column="45" />
-          <folding>
-            <element signature="e#25#53#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/base.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="63">
@@ -583,8 +575,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/blogproject/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="206">
+        <state relative-caret-position="-2756">
           <caret line="27" column="59" selection-start-line="27" selection-start-column="59" selection-end-line="27" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fabfile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/blog/search_indexes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="13" column="45" selection-start-line="13" selection-start-column="45" selection-end-line="13" selection-end-column="45" />
+          <folding>
+            <element signature="e#25#53#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

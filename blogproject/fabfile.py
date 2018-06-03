@@ -8,7 +8,7 @@ GIT_REPO="https://github.com/coolesthandsome/MyBlog.git"
 env.user='colin'
 env.password='mrfeng064924'
 
-env.hosts=['149.28.142.149']
+env.hosts=['149.28.139.108']
 
 env.port='22'
 
