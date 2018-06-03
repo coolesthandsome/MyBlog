@@ -7,11 +7,17 @@ from django.shortcuts import render,get_object_or_404
 
 from django.http import HttpResponse
 
-from .models import Post,Category
+from .models import Post,Category,Tag
 
 from django.views.generic import ListView
 
 from django.views.generic import DetailView
+
+from django.utils.text import slugify
+
+from markdown.extensions.toc import TocExtension
+
+from django.db.models import Q
 
 # Create your views here.
 
@@ -56,10 +62,101 @@ from django.views.generic import DetailView
 #     post_list=Post.objects.filter(category=cate).order_by('-created_time')
 #     return render(request,'blog/index.html',context={'post_list':post_list})
 
+def search(request):
+    q=request.GET.get('q')
+    error_msg=''
+
+    if not q:
+        error_msg="请输入关键词"
+        return render(request,'blog/index.html',{'error_msg': error_msg})
+
+    post_list=Post.objects.filter(Q(title__icontains=q) | Q(text__icontains=q))
+    return render(request,'blog/index.html',{'error_msg': error_msg,'post_list': post_list})
+
+
 class IndexView(ListView):
     model=Post
     template_name = 'blog/index.html'
+    paginate_by = 2
     context_object_name = 'post_list'   #model。将 model 指定为 Post，告诉 Django 我要获取的模型是 Post。template_name。指定这个视图渲染的模板。context_object_name。指定获取的模型列表数据保存的变量名。这个变量会被传递给模板。
+
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context=super().get_context_data(**kwargs)
+        paginator=context.get('paginator')
+        page=context.get('page_obj')
+        is_pageinated=context.get('is_paginated')
+
+        pagination_data=self.pagination_data(paginator,page,is_pageinated)
+        context.update(pagination_data)
+        return context
+
+
+    def pagination_data(self,paginator,page,is_paginated):
+        if not is_paginated:
+            return {}
+
+        left=[]
+        right=[]
+        left_has_more=False
+        right_has_more=False
+
+        first=False
+        last=False
+        page_number=page.number
+        total_pages=paginator.num_pages
+        page_range=paginator.page_range
+
+        if page_number==1:
+            right=page_range[page_number:page_number+2]
+            if right[-1]<total_pages-1:
+                right_has_more=True
+
+            if right[-1]<total_pages:
+                last=True
+
+        elif page_number==total_pages:
+            left=page_range[(page_number-3) if (page_number-3>0) else 0:page_number-1]
+
+            if left[0]>2:
+                left_has_more=True
+
+            if left[0]>1:
+                first=True
+
+        else:
+            left=page_range[(page_number-3) if (page_number-3)>0 else 0:page_number-1]
+            right=page_range[page_number:page_number+2]
+
+            if right[-1]<total_pages-1:
+                right_has_more=True
+
+            if right[-1]<total_pages:
+                last=True
+
+            if left[0]>2:
+                left_has_more=True
+            if left[0]>1:
+                first=True
+
+
+        data={
+            'left':left,
+            'right':right,
+            'left_has_more':left_has_more,
+            'right_has_more':right_has_more,
+            'first':first,
+            'last':last
+        }
+
+        return data
+
+
+
+
+
+
+
 
 
 class CategoryView(ListView):
@@ -70,6 +167,16 @@ class CategoryView(ListView):
     def get_queryset(self):
         cate=get_object_or_404(Category,pk=self.kwargs.get("pk"))
         return super(CategoryView, self).get_queryset().filter(category=cate)
+
+class TagView(ListView):
+    model = Post
+    template_name = 'blog/index.html'
+    context_object_name = "post_list"
+
+    def get_queryset(self):
+        tag=get_object_or_404(Tag,pk=self.kwargs.get("pk"))
+        return super(TagView, self).get_queryset().filter(tag=tag)
+
 
 class ArchivesView(ListView):
     model = Post
@@ -97,9 +204,16 @@ class PostDetailView(DetailView):
 
     def get_object(self, queryset=None):
         post=super(PostDetailView, self).get_object(queryset=None)
-        post.text=markdown.markdown(post.text,extensions=['markdown.extensions.extra',
-                                          'markdown.extensions.codehilite',
-                                          'markdown.extensions.toc'])
+        # post.text=markdown.markdown(post.text,extensions=['markdown.extensions.extra',
+        #                                   'markdown.extensions.codehilite',
+        #                                   'markdown.extensions.toc'])
+        md=markdown.Markdown(extensions=['markdown.extensions.extra',
+                                         'markdown.extensions.codehilite',
+                                         TocExtension(slugify=slugify)])
+        post.text=md.convert(post.text)
+        post.toc=md.toc
+
+
         return post
 
     def get_context_data(self, **kwargs):

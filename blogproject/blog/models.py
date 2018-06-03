@@ -31,7 +31,7 @@ class Post(models.Model):
     exerpt=models.CharField(max_length=200,blank=True)
    # name=models.CharField(max_length=100)
     category=models.ForeignKey(Category,on_delete=models.CASCADE,)
-    tag=models.ManyToManyField
+    tag=models.ManyToManyField(Tag,blank=True)
     author=models.ForeignKey(User,on_delete=models.CASCADE,)
 
     views=models.PositiveIntegerField(default=0)

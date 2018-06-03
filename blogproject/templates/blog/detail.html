@@ -42,17 +42,17 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right">
                             <li class="cl-effect-11"><a href="index.html" data-hover="首页">首页</a></li>
-                            <li class="cl-effect-11"><a href="full-width.html" data-hover="博客">博客</a></li>
-                            <li class="cl-effect-11"><a href="about.html" data-hover="关于">关于</a></li>
-                            <li class="cl-effect-11"><a href="contact.html" data-hover="联系">联系</a></li>
+                            <!--  <li><a href="full-width.html">博客</a></li>
+            <li><a href="about.html">关于</a></li>
+            <li><a href="contact.html">登录</a></li>-->
                         </ul>
                     </div><!-- /.navbar-collapse -->
                 </nav>
                 <div id="header-search-box">
                     <a id="search-menu" href="#"><span id="search-icon" class="ion-ios-search-strong"></span></a>
                     <div id="search-form" class="search-form">
-                        <form role="search" method="get" id="searchform" action="#">
-                            <input type="search" placeholder="搜索" required>
+                        <form role="search" method="get" id="searchform" action="{% url 'haystack_search' %}">
+                            <input type="search" name="q" placeholder="搜索" required>
                             <button type="submit"><span class="ion-ios-search-strong"></span></button>
                         </form>
                     </div>
@@ -81,6 +81,14 @@
                     </header>
                     <div class="entry-content clearfix">
                         {{ post.text|safe }}
+                        <div class="widget-tag-cloud">
+                            <ul>
+                                标签：
+                                {% for tag in post.tag.all %}
+                                <li><a href="{% url 'blog:tag' tag.pk %}"> {{ tag.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
                     </div>
                 </article>
                 <section class="comment-area" id="comment-area">
@@ -94,11 +102,13 @@
                                 {{ form.name }}
                                 {{from.name.errors}}
                             </div>
+
                             <div class="col-md-4">
                                 <label for="{{ form.email.id_for_label} }">邮箱：</label>
                                 {{form.email}}
                                 {{form.email.errors}}
                             </div>
+
                             <div class="col-md-4">
                                 <label for="{{ form.url.id_for_label }}">网址：</label>
                                 {{ form.url }}
@@ -135,23 +145,7 @@
                 {% block toc %}
                 <div class="widget widget-content">
                     <h3 class="widget-title">文章目录</h3>
-                    <ul>
-                        <li>
-                            <a href="#">教程特点</a>
-                        </li>
-                        <li>
-                            <a href="#">谁适合这个教程</a>
-                        </li>
-                        <li>
-                            <a href="#">在线预览</a>
-                        </li>
-                        <li>
-                            <a href="#">资源列表</a>
-                        </li>
-                        <li>
-                            <a href="#">获取帮助</a>
-                        </li>
-                    </ul>
+                    {{ post.toc|safe }}
                 </div>
                 {% endblock toc %}
                 <div class="widget widget-recent-posts">
@@ -201,40 +195,13 @@
                 <div class="widget widget-tag-cloud">
                     <h3 class="widget-title">标签云</h3>
                     <ul>
-                        <li>
-                            <a href="#">Django</a>
-                        </li>
-                        <li>
-                            <a href="#">Python</a>
-                        </li>
-                        <li>
-                            <a href="#">Java</a>
-                        </li>
-                        <li>
-                            <a href="#">笔记</a>
-                        </li>
-                        <li>
-                            <a href="#">文档</a>
-                        </li>
-                        <li>
-                            <a href="#">AngularJS</a>
-                        </li>
-                        <li>
-                            <a href="#">CSS</a>
-                        </li>
-                        <li>
-                            <a href="#">JavaScript</a>
-                        </li>
-                        <li>
-                            <a href="#">Snippet</a>
-                        </li>
-                        <li>
-                            <a href="#">jQuery</a>
-                        </li>
+                        {% for tag in post.tags.all %}
+                           {{ tag.name }}
+                        {% endfor %}
                     </ul>
                 </div>
                 <div class="rss">
-                    <a href=""><span class="ion-social-rss-outline"></span> RSS 订阅</a>
+                    <a href="{% url 'rss' %}"><span class="ion-social-rss-outline"></span> RSS 订阅</a>
                 </div>
             </aside>
         </div>
@@ -259,9 +226,9 @@
     <nav>
         <ul>
             <li><a href="index.html">首页</a></li>
-            <li><a href="full-width.html">博客</a></li>
+           <!--  <li><a href="full-width.html">博客</a></li>
             <li><a href="about.html">关于</a></li>
-            <li><a href="contact.html">联系</a></li>
+            <li><a href="contact.html">登录</a></li>-->
         </ul>
     </nav>
 </div>
